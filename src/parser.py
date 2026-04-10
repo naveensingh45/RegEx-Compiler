@@ -70,7 +70,6 @@ class Parser:
         raise ParserError(f"Parse error at position {self.pos}: {msg}")
     
     def advance(self):
-        """Move to next token"""
         self.pos += 1
         if self.pos < len(self.tokens):
             self.current_token = self.tokens[self.pos]
@@ -78,16 +77,11 @@ class Parser:
             self.current_token = None
     
     def parse(self) -> Optional[ASTNode]:
-        """Entry point - parse tokens and return AST"""
         if self.current_token.type == TokenType.EOF:
             return None
         return self.expr()
     
     def expr(self) -> ASTNode:
-        """
-        Handle alternation (|) - lowest precedence
-        expr → term ('|' term)*
-        """
         left = self.term()
         
         while self.current_token and self.current_token.type == TokenType.OR:
@@ -98,13 +92,8 @@ class Parser:
         return left
     
     def term(self) -> ASTNode:
-        """
-        Handle concatenation (implicit) - higher precedence
-        term → factor+
-        """
         factors = []
         
-        # Collect all factors that should be concatenated
         while (self.current_token and 
                self.current_token.type not in [TokenType.EOF, TokenType.OR, TokenType.RPAREN]):
             factors.append(self.factor())
@@ -112,7 +101,6 @@ class Parser:
         if not factors:
             self.error("Expected at least one factor")
         
-        # Build left-associative concatenation tree
         result = factors[0]
         for factor in factors[1:]:
             result = ConcatNode(result, factor)
@@ -120,10 +108,6 @@ class Parser:
         return result
     
     def factor(self) -> ASTNode:
-        """
-        Handle quantifiers (*, +, ?) - highest precedence
-        factor → primary ('*'|'+'|'?')?
-        """
         node = self.primary()
         
         if self.current_token:
@@ -140,10 +124,6 @@ class Parser:
         return node
     
     def primary(self) -> ASTNode:
-        """
-        Handle basic elements: characters and grouped expressions
-        primary → CHAR | '(' expr ')'
-        """
         token = self.current_token
         
         if token.type == TokenType.CHAR:
@@ -164,6 +144,7 @@ class Parser:
             self.error(f"Unexpected token {token.type}")
 
 
+#helper function
 def parse(regex: str) -> Optional[ASTNode]:
     lexer = Lexer(regex)
     tokens = lexer.tokenize()

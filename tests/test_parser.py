@@ -44,7 +44,7 @@ test_patterns = [
 for pattern, description in test_patterns:
     print(f"\n{description}: '{pattern}'")
     ast = parse(pattern)
-    print("  AST Tree:")
+    print("AST Tree:")
     print_ast(ast)
 
 # Error test cases
@@ -58,11 +58,11 @@ for pattern, description in error_patterns:
     try:
         ast = parse(pattern)
         if ast is None:
-            print(f"  Result: None (empty regex)")
+            print(f"Result: None (empty regex)")
         else:
-            print("  AST Tree:")
+            print("AST Tree:")
             print_ast(ast)
     except ParserError as e:
-        print(f"  ✓ Error caught: {e}")
+        print(f"✓ Error caught: {e}")
 
 print("\n Successfull Parsing")

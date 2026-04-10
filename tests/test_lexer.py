@@ -20,7 +20,7 @@ for pattern, description in test_patterns:
     lexer = Lexer(pattern)
     tokens = lexer.tokenize()
     
-    print("  Tokens: ", end="")
+    print("Tokens: ", end="")
     for token in tokens[:-1]: 
         print(f"{token.type.name}({token.value}) ", end="")
     print()
