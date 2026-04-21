@@ -13,6 +13,7 @@ Key Features:
 - Visual graph generation using Graphviz
 - Pattern matching with execution traces
 - Comparative analysis (NFA vs DFA state reduction)
+- Web Interface For direct user interaction
 
 ---
 
@@ -82,9 +83,9 @@ regex-compiler/
 │   ├── visualizer.py     # Graph generation
 │   └── matcher.py        # Pattern matching
 ├── tests/                # Test suite
-├── docs/                 # Documentation
-├── main.py              # CLI interface
-└── requirements.txt
+├── examples/outputs      # Visual Outputs
+├── app.py                # Web Interface
+└── requirements.txt      # requirements
 ```
 
 ---
@@ -99,15 +100,6 @@ pytest
 pytest --cov=src
 ```
 
----
-
-## 📖 Documentation
-
-- **docs/design.md** - Architecture overview
-- **docs/algorithms.md** - Thompson's Construction, Subset Construction
-- **docs/grammar.txt** - BNF grammar specification
-
----
 
 ## 🤝 Contributing
 
@@ -127,7 +119,11 @@ MIT License - see [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-Team RegEX 
+Team Xyfer 
+1. Naveen Singh
+2. Shreyam Thapliyal
+3. Akshat Chauhan
+4. Amey Jhaldiyal
 
 ---
 

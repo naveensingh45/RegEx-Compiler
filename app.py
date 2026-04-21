@@ -248,7 +248,7 @@ else:
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center'>
-    <p>Built with ❤️ using Streamlit | Regex Compiler Project</p>
+    <p>Built By Team Xyfer | Regex Compiler </p>
 </div>
 """, unsafe_allow_html=True)
 
