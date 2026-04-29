@@ -3,7 +3,7 @@ import os
 import sys
 from io import BytesIO
 
-# Add project to path
+#Add project to path
 sys.path.insert(0, os.path.dirname(__file__))
 
 from src.nfa import build_nfa, NFAState
@@ -15,18 +15,17 @@ from src.lexer import LexerError
 
 # Page config
 st.set_page_config(
-    page_title="Regex to NFA/DFA Compiler",
-    page_icon="🕸️",
+    page_title="Regex->nfa/dfa",
     layout="wide"
 )
 
 # Title
-st.title("🔄 Regular Expression to NFA/DFA Compiler")
+st.title("Regex to NFA/DFA visualizer")
 st.markdown("### Visualize and Test Regular Expression Automata")
 
 # Sidebar - Information
 with st.sidebar:
-    st.header("ℹ️ About")
+    st.header("info")
     st.markdown("""
     This tool compiles regular expressions into:
     - **NFA** (Non-deterministic Finite Automaton)
@@ -45,7 +44,7 @@ with st.sidebar:
     - `(a|b)*abb` - Ends with "abb"
     """)
     
-    st.header("📚 Quick Examples")
+    st.header("Examples")
     examples = {
         "Single character": "a",
         "Concatenation": "ab",
@@ -64,7 +63,7 @@ if 'regex_input' not in st.session_state:
     st.session_state.regex_input = ""
 
 # Main input
-st.header("📝 Enter Regular Expression")
+st.header("Enter RegEx")
 regex_pattern = st.text_input(
     "Regex Pattern:",
     value=st.session_state.regex_input,
@@ -90,7 +89,7 @@ if regex_pattern:
                 dfa = nfa_to_dfa(nfa)
                 
                 # Show statistics
-                st.success(f"✅ Compilation successful!")
+                st.success(f"compiled")
                 
                 col1, col2, col3, col4 = st.columns(4)
                 with col1:
@@ -104,12 +103,12 @@ if regex_pattern:
                     st.metric("Alphabet Size", len(dfa.alphabet))
                 
                 # Visualizations
-                st.header("📊 Automata Visualizations")
+                st.header("Visualizations")
                 
                 viz_col1, viz_col2 = st.columns(2)
                 
                 with viz_col1:
-                    st.subheader("🔵 NFA (Non-deterministic)")
+                    st.subheader("NFA(Non-deterministic)")
                     
                     # Generate NFA visualization
                     visualizer = Visualizer()
@@ -121,20 +120,20 @@ if regex_pattern:
                     
                     # Download button
                     st.download_button(
-                        label="⬇️ Download NFA",
+                        label="Download NFA png",
                         data=nfa_png,
                         file_name=f"nfa_{regex_pattern.replace('|', 'or').replace('*', 'star')}.png",
                         mime="image/png"
                     )
                     
-                    with st.expander("📋 NFA Details"):
+                    with st.expander("NFA Details"):
                         st.write(f"**States:** {len(nfa.states)}")
                         st.write(f"**Start State:** {nfa.start.id}")
                         st.write(f"**Accept State:** {nfa.accept.id}")
                         st.write(f"**Transition Elements:** {', '.join(sorted(nfa.get_alphabet()))}")
                 
                 with viz_col2:
-                    st.subheader("🟢 DFA (Deterministic)")
+                    st.subheader("DFA (Deterministic)")
                     
                     # Generate DFA visualization
                     dfa_dot = visualizer.visualize_dfa(dfa, filename="temp_dfa", view=False)
@@ -145,13 +144,13 @@ if regex_pattern:
                     
                     # Download button
                     st.download_button(
-                        label="⬇️ Download DFA",
+                        label="Download DFA png",
                         data=dfa_png,
                         file_name=f"dfa_{regex_pattern.replace('|', 'or').replace('*', 'star')}.png",
                         mime="image/png"
                     )
                     
-                    with st.expander("📋 DFA Details"):
+                    with st.expander("DFA Details"):
                         st.write(f"**States:** {len(dfa.states)}")
                         st.write(f"**Start State:** {dfa.start.id}")
                         accept_states = [s.id for s in dfa.states if s.is_accept]
@@ -159,22 +158,21 @@ if regex_pattern:
                         st.write(f"**Transition Elements:** {', '.join(sorted(dfa.alphabet))}")
                 
                 # String Testing Section
-                st.header("🧪 Test Strings")
-                st.markdown("Enter strings to test against the compiled automaton")
+                st.header("Test input string(s)")
                 
                 # Multiple test strings
                 test_input = st.text_area(
-                    "Test Strings (one per line):",
+                    "Test Strings(one per line):",
                     value="",
                     height=150,
                     help="Enter multiple strings, one per line"
                 )
                 
-                if st.button("🚀 Run Tests", type="primary"):
+                if st.button("Run tests", type="primary"):
                     test_strings = [s.strip() for s in test_input.split('\n') if s.strip()]
                     
                     if test_strings:
-                        st.subheader("📊 Test Results")
+                        st.subheader("Test Results")
                         
                         matcher = Matcher(dfa)
                         
@@ -184,7 +182,7 @@ if regex_pattern:
                             result = matcher.match_with_trace(test_str)
                             results.append({
                                 'String': f'"{test_str}"' if test_str else '"" (empty)',
-                                'Result': '✅ ACCEPT' if result.accepted else '❌ REJECT',
+                                'Result': 'ACCEPT' if result.accepted else 'REJECT',
                                 'Status': result.accepted
                             })
                         
@@ -195,7 +193,7 @@ if regex_pattern:
                         
                         # Detailed trace for first string
                         if results:
-                            st.subheader("🔍 Detailed Trace (First String)")
+                            st.subheader("Detailed Trace (First String)")
                             first_string = test_strings[0]
                             trace_result = matcher.match_with_trace(first_string)
                             
@@ -206,7 +204,7 @@ if regex_pattern:
                         st.warning("Please enter at least one test string")
                 
                 # Interactive single string tester
-                st.header("🎯 Interactive String Tester")
+                st.header("Interactive String Tester")
                 
                 col_a, col_b = st.columns([3, 1])
                 with col_a:
@@ -225,31 +223,29 @@ if regex_pattern:
                     result = matcher.match_with_trace(single_test)
                     
                     if result.accepted:
-                        st.success(f"✅ ACCEPTED: \"{single_test}\" matches the pattern!")
+                        st.success(f"ACCEPTED: \"{single_test}\" matches the pattern!")
                     else:
-                        st.error(f"❌ REJECTED: \"{single_test}\" does not match the pattern")
+                        st.error(f"REJECTED: \"{single_test}\" does not match the pattern")
                     
                     with st.expander("Show execution trace"):
                         for line in result.trace:
                             st.text(line)
     
     except (ParserError, LexerError) as e:
-        st.error(f"❌ Error: {str(e)}")
+        st.error(f"Error: {str(e)}")
         st.info("Please check your regex syntax and try again")
     
     except Exception as e:
-        st.error(f"❌ Unexpected error: {str(e)}")
+        st.error(f"Unexpected error: {str(e)}")
         st.code(str(e))
 
 else:
-    st.info("👆 Enter a regular expression to get started!")
+    st.info("Enter a regular expression to get started!")
 
-# Footer
+
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center'>
-    <p>Built By Team Xyfer | Regex Compiler </p>
+    <p></p>
 </div>
 """, unsafe_allow_html=True)
-
-#python -m streamlit run app.py
