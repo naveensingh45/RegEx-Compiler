@@ -1,10 +1,10 @@
-# RegEx to NFA/DFA Compiler
+#RegEx to NFA/DFA Compiler
 
 A compiler that converts regular expressions into visual finite automata with pattern matching capabilities.
 
 ---
 
-## 🎯 Overview
+##Overview
 
 This project implements a complete compiler pipeline that converts regular expressions (like `(a|b)*c+`) into Non-deterministic Finite Automata (NFA) and Deterministic Finite Automata (DFA), with beautiful visual diagrams and a working pattern matcher.
 
@@ -17,7 +17,7 @@ Key Features:
 
 ---
 
-## 🛠️ Installation
+##Installation
 
 ```bash
 # Install Graphviz (required)

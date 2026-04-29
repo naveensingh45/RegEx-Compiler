@@ -28,8 +28,8 @@ with st.sidebar:
     st.header("info")
     st.markdown("""
     This tool compiles regular expressions into:
-    - **NFA** (Non-deterministic Finite Automaton)
-    - **DFA** (Deterministic Finite Automaton)
+    - **NFA** (Non-deterministic Finite Automata)
+    - **DFA** (Deterministic Finite Automata)
     
     **Supported Operators:**
     - `*` - Zero or more (Kleene star)
@@ -129,7 +129,7 @@ if regex_pattern:
                     with st.expander("NFA Details"):
                         st.write(f"**States:** {len(nfa.states)}")
                         st.write(f"**Start State:** {nfa.start.id}")
-                        st.write(f"**Accept State:** {nfa.accept.id}")
+                        st.write(f"**Acceptance State(s):** {nfa.accept.id}")
                         st.write(f"**Transition Elements:** {', '.join(sorted(nfa.get_alphabet()))}")
                 
                 with viz_col2:
@@ -154,7 +154,7 @@ if regex_pattern:
                         st.write(f"**States:** {len(dfa.states)}")
                         st.write(f"**Start State:** {dfa.start.id}")
                         accept_states = [s.id for s in dfa.states if s.is_accept]
-                        st.write(f"**Accept States:** {accept_states}")
+                        st.write(f"**Acceptance State(s):** {accept_states}")
                         st.write(f"**Transition Elements:** {', '.join(sorted(dfa.alphabet))}")
                 
                 # String Testing Section
@@ -204,32 +204,7 @@ if regex_pattern:
                         st.warning("Please enter at least one test string")
                 
                 # Interactive single string tester
-                st.header("Interactive String Tester")
                 
-                col_a, col_b = st.columns([3, 1])
-                with col_a:
-                    single_test = st.text_input(
-                        "Enter a string to test:",
-                        placeholder="e.g., abb",
-                        key="single_test"
-                    )
-                with col_b:
-                    st.write("")  # Spacing
-                    st.write("")  # Spacing
-                    test_button = st.button("Test", type="secondary")
-                
-                if single_test is not None and (test_button or single_test):
-                    matcher = Matcher(dfa)
-                    result = matcher.match_with_trace(single_test)
-                    
-                    if result.accepted:
-                        st.success(f"ACCEPTED: \"{single_test}\" matches the pattern!")
-                    else:
-                        st.error(f"REJECTED: \"{single_test}\" does not match the pattern")
-                    
-                    with st.expander("Show execution trace"):
-                        for line in result.trace:
-                            st.text(line)
     
     except (ParserError, LexerError) as e:
         st.error(f"Error: {str(e)}")
