@@ -117,7 +117,7 @@ if regex_pattern:
                     
                     # Render to PNG in memory
                     nfa_png = nfa_dot.pipe(format='png')
-                    st.image(nfa_png, use_container_width=True)
+                    st.image(nfa_png, use_column_width=True)
                     
                     # Download button
                     st.download_button(
@@ -141,7 +141,7 @@ if regex_pattern:
                     
                     # Render to PNG in memory
                     dfa_png = dfa_dot.pipe(format='png')
-                    st.image(dfa_png, use_container_width=True)
+                    st.image(dfa_png, use_column_width=True)
                     
                     # Download button
                     st.download_button(

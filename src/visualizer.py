@@ -51,9 +51,7 @@ class Visualizer:
         
         # Add states
         for state in dfa.states:
-            # Label shows DFA state ID and NFA states it represents
-            nfa_ids = sorted([s.id for s in state.nfa_states])
-            label = f"{state.id}\n{{{','.join(map(str, nfa_ids))}}}"
+            label = str(state.id)
             
             if state.is_accept:
                 dot.node(str(state.id), label, shape='doublecircle')
